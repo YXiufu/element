@@ -17,7 +17,11 @@
           type="info"
           @close="deleteTag($event, selected[0])"
           disable-transitions>
-          <span class="el-select__tags-text">{{ selected[0].currentLabel }}</span>
+          <span 
+            class="el-select__tags-text" 
+            :title="selected[0].currentLabel">
+            {{ selected[0].currentLabel }}
+          </span>
         </el-tag>
         <el-tag
           v-if="selected.length > 1"
@@ -64,6 +68,7 @@
         v-model="query"
         @input="debouncedQueryChange"
         v-if="filterable"
+        v-show="visible"
         :style="{ 'flex-grow': '1', width: inputLength / (inputWidth - 32) + '%', 'max-width': inputWidth - 42 + 'px' }"
         ref="input">
     </div>
@@ -398,6 +403,10 @@
             if (this.filterable) {
               this.currentPlaceholder = this.cachedPlaceHolder;
             }
+          } else {
+            if (this.filterable) {
+              this.resetInputHeight();
+            }
           }
         } else {
           this.broadcast('ElSelectDropdown', 'updatePopper');
@@ -405,7 +414,9 @@
             this.query = this.remote ? '' : this.selectedLabel;
             this.handleQueryChange(this.query);
             if (this.multiple) {
-              this.$refs.input.focus();
+              this.$nextTick(() => {
+                this.$refs.input.focus();
+              });
             } else {
               if (!this.remote) {
                 this.broadcast('ElOption', 'queryChange', '');

@@ -201,6 +201,7 @@
     v-model="value2"
     multiple
     collapse-tags
+    filterable
     style="margin-left: 20px;"
     placeholder="请选择">
     <el-option
@@ -231,6 +232,9 @@
         }, {
           value: '选项5',
           label: '北京烤鸭'
+        }, {
+          value: '选项6',
+          label: '测试选项6测试选项6测试选项6测试选项6测试选项6测试选项6测试选项6测试选项6测试选项6'
         }],
         value1: [],
         value2: []
